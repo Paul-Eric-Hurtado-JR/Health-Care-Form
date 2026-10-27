@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin Login</title>
+    </head>
+    <body>
+        <form id="admin_form">
+            <label for="admin_username">Username</label>
+            <input type="text" id="admin_username" name="username" required autocomplete="username" placeholder="Username">
+
+            <label for="admin_password">Password</label>
+            <input type="password" id="admin_password" name="password" required autocomplete="password" placeholder="Password">
+
+            <button type="submit">Log In</button>
+            <p id="display_message"></p>
+        </form>
+        <script src="{{ url_for('static', filename='js/admin_login.js') }}"></script>
+    </body>
+</html>

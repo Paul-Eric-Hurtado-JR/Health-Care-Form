@@ -1,0 +1,43 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+button{
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form{
+    padding: 30px;
+}
+
+.success{
+    padding: 12px;
+    margin-top: 15px;
+    border: 1px solid;
+    background-color: #b9ccbc;
+    color: #0b821d;
+}
+.error{
+    padding: 12px;
+    margin-top: 15px;
+    border: 1px solid;
+    background-color: #f8d7da;
+    color: #721c24;
+}
