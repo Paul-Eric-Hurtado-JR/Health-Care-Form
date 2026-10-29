@@ -152,7 +152,14 @@ def admin_login():
 
         if db is not None and db.is_connected():
             db.close()
-            
+@app.route("/admin/logout", methods=["POST"])
+def admin_logout():
+    session.clear()
+    
+    return jsonify({
+        "message": "Sucessful logout"
+    }), 200 
+
 #Admin dashboard
 @app.route("/admin/dashboard", strict_slashes=False, methods=["GET"])
 def admin_dashboard():
