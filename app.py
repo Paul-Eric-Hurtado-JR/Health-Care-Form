@@ -89,7 +89,7 @@ def patients_info():
         "message":"Patient info stored",
         "Patient": patient_id
           }), 201
-    
+#route to login in admin
 @app.route("/admin/login", methods=["POST"])
 def admin_login():
     login = request.get_json(silent=True)
@@ -152,6 +152,7 @@ def admin_login():
 
         if db is not None and db.is_connected():
             db.close()
+#route to logout admin
 @app.route("/admin/logout", methods=["POST"])
 def admin_logout():
     session.clear()
