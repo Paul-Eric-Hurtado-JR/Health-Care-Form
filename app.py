@@ -314,7 +314,6 @@ def delete_patient_record(patient_id):
                 }), 404
     
         db.commit()
-        
         return jsonify({
             "message": "Patient succesfully deleted",
         }), 200
