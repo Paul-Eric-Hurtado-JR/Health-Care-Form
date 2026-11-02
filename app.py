@@ -184,18 +184,26 @@ def patient_display():
         return jsonify({
             "message": "You are not logged in as an admin"
         }), 401
+    search = request.args.get("search","").strip()
     db = None
     cursor = None
     try:   
         db = database_connection()
         cursor = db.cursor()
-
-        sql = """
-        SELECT * FROM patients
-        ORDER BY PatientID DESC
-        """
-    
-        cursor.execute(sql)
+        if search:
+            sql = """
+             SELECT Firstname, Lastname, age FROM patients
+             WHERE Firstname LIKE %s OR Lastname LIKE %s
+             ORDER BY PatientID DESC;
+             """
+            search_pattern = f"%{search}%"
+            cursor.execute(sql,(search_pattern,search_pattern))
+        else:
+            sql = """
+            SELECT Firstname, Lastname, age FROM patients
+            ORDER BY PatientID DESC;
+            """
+            cursor.execute(sql)
         #gets only one row
         patient = cursor.fetchall()    
 

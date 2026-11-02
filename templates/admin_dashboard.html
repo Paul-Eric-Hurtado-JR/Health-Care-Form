@@ -11,13 +11,20 @@
         <button id="logout">Log Out</button>
 
         <h2>Patient Records</h2>
+        <form id="searchbar_form">
+            <label for="searchbar">Search Using either first or last name</label>
+            <input type="text" id="searchbar" name="search" placeholder="Patient's name">
+            <br>
+
+            <button type="submit">Submit Name</button>
+        </form>
+        <br>
         <button id="refresh_patients">Refresh patient records</button>
 
         <p id="status_message">Patients will be loaded here</p>
         <table>
             <thead>
                 <tr>
-                    <th>PatientID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Age</th>
