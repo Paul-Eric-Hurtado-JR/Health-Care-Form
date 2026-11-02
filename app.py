@@ -164,8 +164,6 @@ def admin_logout():
 #Admin dashboard
 @app.route("/admin/dashboard", strict_slashes=False, methods=["GET"])
 def admin_dashboard():
-    print("DASHBOARD PATH:", request.path)
-    print("DASHBOARD URL:", request.url)
     if "admin_username" not in session:
         return jsonify({
             "message": "You are not logged in as an admin"
@@ -192,7 +190,7 @@ def patient_display():
         cursor = db.cursor()
         if search:
             sql = """
-             SELECT Firstname, Lastname, age FROM patients
+             SELECT * FROM patients
              WHERE Firstname LIKE %s OR Lastname LIKE %s
              ORDER BY PatientID DESC;
              """
@@ -200,7 +198,7 @@ def patient_display():
             cursor.execute(sql,(search_pattern,search_pattern))
         else:
             sql = """
-            SELECT Firstname, Lastname, age FROM patients
+            SELECT * FROM patients
             ORDER BY PatientID DESC;
             """
             cursor.execute(sql)
@@ -293,30 +291,46 @@ def update_patient_records(patient_id):
 #Deletes patient record
 @app.route("/delete-patient-record/<int:patient_id>", methods=["DELETE"])
 def delete_patient_record(patient_id):
-    db = database_connection()
-    cursor = db.cursor()
-    
-    sql = """
-        DELETE FROM patients
-        WHERE PatientID = %s;
-    """
+    if "admin_username" not in session:
+        return jsonify({
+            "message": "You are not logged in as an admin"
+        }), 401
+        
+    db = None
+    cursor = None
     try:
+        db = database_connection()
+        cursor = db.cursor()
+        
+        sql = """
+            DELETE FROM patients
+            WHERE PatientID = %s;
+        """
         cursor.execute(sql, (patient_id,))
 
         if cursor.rowcount == 0:
             return jsonify ({
                 "message": "Patient not found"
-                }), 400
+                }), 404
     
         db.commit()
+        
+        return jsonify({
+            "message": "Patient succesfully deleted",
+        }), 200
+    except mysql.connector.Error as error:
+        if db is not None and db.is_connected():
+            db.rollback()
+        app.logger.exception("Database error during admin login")
+        return jsonify({
+            "message": "Database operation failed"
+        }), 500 
     finally:
-        cursor.close()
-        db.close()
-    
-    return jsonify({
-        "message": "Succesfully deleted patient",
-        "Patient": patient_id
-    }), 200
+        if cursor is not None:
+            cursor.close()
+
+        if db is not None and db.is_connected():
+            db.close()
     
 @app.route("/contact")
 def contact():
