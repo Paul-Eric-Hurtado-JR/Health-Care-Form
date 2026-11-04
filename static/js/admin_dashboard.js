@@ -66,9 +66,21 @@ function load_patients(search_value="") {
                 const age = document.createElement("td");
                 age.textContent = Patient[3];
 
+                const update_col = document.createElement("td");
+                const update_button = document.createElement("button");
+                update_button.textContent = "Update";
+
                 const delete_col = document.createElement("td");
                 const delete_button = document.createElement("button");
                 delete_button.textContent = "Delete";
+
+                update_button.addEventListener("click", function () {
+                    const confirm_update = confirm("Are you sure you want to update this person. You will be redirected to a differnt page.");
+
+                    if(confirm_update){
+                        update_patient(Patient[0]);
+                    }
+                })
 
                 delete_button.addEventListener("click", function() {
                     const confirm_deletion = confirm("Are you sure you want to delete this person.");
@@ -77,7 +89,9 @@ function load_patients(search_value="") {
                         delete_patient(Patient[0]);
                     }
                 })
-                row.append(patientID,firstname,lastname,age,delete_button);
+                update_col.appendChild(update_button);
+                delete_col.appendChild(delete_button);
+                row.append(patientID,firstname,lastname,age,update_col,delete_col);
                 table_body.appendChild(row);
                 
             });
@@ -86,6 +100,10 @@ function load_patients(search_value="") {
         .catch(error => {
             status_message.textContent = error.message;
     });
+}
+
+function update_patient(patient_ID) {
+    window.location.href = `/update-patient-page/${patient_ID}`;
 }
 
 function delete_patient(patient_ID){

@@ -28,7 +28,7 @@ def database_connection():
 def home():
     return render_template("admin_login.html")
 
-#Creates patient record
+#Creates patient record // is going to need to be changed for new page so username and passwrod
 @app.route("/patients-info", methods=["Post"])
 def patients_info():
  
@@ -89,6 +89,8 @@ def patients_info():
         "message":"Patient info stored",
         "Patient": patient_id
           }), 201
+    
+    
 #route to login in admin
 @app.route("/admin/login", methods=["POST"])
 def admin_login():
@@ -111,7 +113,7 @@ def admin_login():
     if not username or not password:
         return jsonify({
             "message": "Username and Password are required"
-        }) , 400
+        }), 400
         
     db = None
     cursor = None
@@ -131,7 +133,6 @@ def admin_login():
                 "message": "Invalid Username or Password"
             }), 401
             
-        
         session.clear()
         session["admin_username"] = verify_login[0]
         
@@ -221,7 +222,48 @@ def patient_display():
 
         if db is not None and db.is_connected():
             db.close()
+@app.route("/retrieve-single-record/<int:patient_id>", methods=["GET"])
+def retrieve_single_record(patient_id):
+    if "admin_username" not in session:
+        return jsonify({
+            "message": "You are not logged in as an admin"
+        }), 401
+        
+    db = None
+    cursor = None
+    try:   
+        db = database_connection()
+        cursor = db.cursor(dictionary=True)
+        
+        sql="""
+        SELECT Firstname, Lastname, age FROM patients
+        WHERE PatientID = %s;
+        """
+        cursor.execute(sql,(patient_id,))
+        
+        patient = cursor.fetchone() 
+           
+        if patient is None:
+            return jsonify({
+                "message": "Patient not found"
+            }), 404
+            
+        return jsonify({
+            "Patient": patient
+        }), 200
+    except mysql.connector.Error as error:
+        if db is not None and db.is_connected():
+            db.rollback()
+        app.logger.exception("Database error during admin login")
+        return jsonify({
+            "message": "Database operation failed"
+        }), 500 
+    finally:
+        if cursor is not None:
+            cursor.close()
 
+        if db is not None and db.is_connected():
+            db.close()        
 #Updates patient record
 @app.route("/update-patient-records/<int:patient_id>", methods=["PUT"])
 def update_patient_records(patient_id):
@@ -287,6 +329,12 @@ def update_patient_records(patient_id):
         "message": "Patient info updated",
         "Patient": patient_id
     }), 200
+    
+@app.route("/update-patient-page/<int:patient_id>", methods=["GET"])
+def update_patient_page(patient_id):
+    if "admin_username" not in session:
+        return render_template("/")
+    return render_template("patient_update.html", patient_id = patient_id)
 
 #Deletes patient record
 @app.route("/delete-patient-record/<int:patient_id>", methods=["DELETE"])
@@ -330,6 +378,11 @@ def delete_patient_record(patient_id):
 
         if db is not None and db.is_connected():
             db.close()
+    
+    
+    
+    
+    
     
 @app.route("/contact")
 def contact():

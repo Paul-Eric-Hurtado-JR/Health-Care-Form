@@ -1,12 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Patient_form</title>
-        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+        <title>Patient Update</title>
     </head>
     <body>
         <div class="form">
-            <h1>Patient_form</h1>
+            <h1>Update_patient_form</h1>
             <form id="patient_form">
                 <label for="patient_fname" >First Name: </label>
                 <input type="text" id="patient_fname" name="fname"><br><br>
@@ -20,8 +19,10 @@
                 <button type="submit">Submit Info</button>
                 <p id="message"></p>
             </form>
+            <button id="back_to_admin_dashboard">Back to Admin Dashboard</button>
+            <p id="status_message"></p>
         </div>
-        <script src="{{ url_for('static', filename='js/patient_form.js') }}"></script>
+        <script>const patient_ID = {{ patient_id }};</script>
+        <script src="{{ url_for('static', filename='js/patient_update.js') }}"></script>
     </body>
-
-</html>
+<html>
