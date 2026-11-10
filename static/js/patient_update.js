@@ -6,29 +6,29 @@
     load_update_patient();
     //loads current patient information into slots
     function load_update_patient() {
-        fetch(`/retrieve-single-record/${patient_ID}`)
-        .then(async response => {
-            const data = await response.json();
+        fetch("/patient/my-record")
+            .then(async response => {
+                const data = await response.json();
 
-            if(!response.ok){
-                throw new Error(data.message || "Failed to load patients info");
-            }
-            return data;
-        })
-        .then(data => {
-            patient = data.Patient;
-            firstname.value = patient.Firstname;
-            lastname.value = patient.Lastname;
-            patient_age.value = patient.age;
-        })
-        .catch(error => {
-            status_message.textContent = error.message;
-        });
-    }
+                if(!response.ok){
+                    throw new Error(data.message || "Failed to load patients info");
+                }
+                return data;
+            })
+            .then(data => {
+                const patient = data.Patient;
+                firstname.value = patient.Firstname;
+                lastname.value = patient.Lastname;
+                patient_age.value = patient.age;
+            })
+            .catch(error => {
+                status_message.textContent = error.message;
+            });
+        }
 
     const form = document.getElementById("patient_form");
     //updates the patient information
-    form.addEventListener("submit", function(){
+    form.addEventListener("submit", function(event){
         event.preventDefault();
         
         const patient = {
@@ -37,7 +37,7 @@
             age: Number(patient_age.value)
         }
 
-        fetch(`/update-patient-records/${patient_ID}`,{
+        fetch("/patient/update-my-record",{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -62,8 +62,8 @@
         });
     })
 
-    const back_to_admin_dashboard = document.getElementById("back_to_admin_dashboard");
+    const back_to_patient_dashboard = document.getElementById("back_to_patient_dashboard");
     //moves back to admin dashboard when button is clicked
-    back_to_admin_dashboard.addEventListener("click", function(){
-        window.location.href = "/admin/dashboard";
+    back_to_patient_dashboard.addEventListener("click", function(){
+        window.location.href = "/patient/dashboard";
     })

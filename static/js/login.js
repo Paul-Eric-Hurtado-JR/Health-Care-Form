@@ -1,7 +1,7 @@
-const form = document.getElementById("admin_form");
-const display_message = document.getElementById("display_message");
+const login_form = document.getElementById("login_form");
+const status_message = document.getElementById("status_message");
 
-form.addEventListener("submit", function(event) {
+login_form.addEventListener("submit", function(event) {
     event.preventDefault();
 
     const username = document.querySelector('[name="username"]').value;
@@ -12,25 +12,25 @@ form.addEventListener("submit", function(event) {
         pw: password
     };
 
-    fetch("/admin/login", {
+    fetch("/login", {
         method: "POST",
         headers: {"content-type": "application/json"
         },
         body: JSON.stringify(Login)
     })
-    .then(async response => {
+    .then(async response => {            
+        const data = await response.json();
     //checks if response is anything other than 2XX
         if(!response.ok) {
-            const error_message = await response.json();
-            throw new Error(error_message.message);
+            throw new Error(data.message || "Couldn't login");
         }   
-        return response.json();
+        return data;
     })
     .then(data => {
-        display_message.textContent = data.message;
+        status_message.textContent = data.message;
         window.location.href = data.redirect;
     })
     .catch(error => {
-        display_message.textContent = error.message;
+        status_message.textContent = error.message;
     })
 });

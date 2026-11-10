@@ -17,12 +17,11 @@
                 <input type="number" id="patient_age" name="age"><br><br>
 
                 <button type="submit">Submit Info</button>
-                <p id="message"></p>
             </form>
-            <button id="back_to_admin_dashboard">Back to Admin Dashboard</button>
+            <button id="back_to_patient_dashboard">Back to Patient Dashboard</button>
             <p id="status_message"></p>
         </div>
         <script>const patient_ID = {{ patient_id }};</script>
         <script src="{{ url_for('static', filename='js/patient_update.js') }}"></script>
     </body>
-<html>
+</html>

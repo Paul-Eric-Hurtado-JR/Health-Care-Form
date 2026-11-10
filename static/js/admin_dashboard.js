@@ -103,7 +103,7 @@ function load_patients(search_value="") {
 }
 
 function update_patient(patient_ID) {
-    window.location.href = `/update-patient-page/${patient_ID}`;
+    window.location.href = `/update-admin-patient-page/${patient_ID}`;
 }
 
 function delete_patient(patient_ID){

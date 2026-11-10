@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Your Account</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    </head>
+    <body>
+        <div class="form">
+                <h1>Patient Registration</h1>
+                <form id="patient_registration_form">
+                    <h3>Account Information</h3>
+                    <hr>
+                    <label for="patient_username">Username:</label>
+                    <input type="text" id="patient_username" name="username" required autocomplete="username" maxlength="50" placeholder="Username">
+
+                    <label for="patient_password">Password:</label>
+                    <input type="password" id="patient_password" name="password" required autocomplete="new-password" placeholder="Password">
+                    
+                    <label for="confirm_patient_password">Password:</label>
+                    <input type="password" id="confirm_patient_password" name="confirmpassword" required autocomplete="new-password" placeholder="Validate Password">
+                    <br>
+                    <h3>Patient Information</h3>
+                    <hr>
+                    <label for="patient_fname">First Name: </label>
+                    <input type="text" id="patient_fname" name="fname" required><br><br>
+                
+                    <label for="patient_lname">Last Name: </label>
+                    <input type="text" id="patient_lname" name="lname" required><br><br>
+                
+                    <label for="patient_age">Age: </label>
+                    <input type="number" id="patient_age" name="age"  min="0" max="105" required><br><br>
+
+                    <button type="submit">Create Account</button>
+                    <p id="status_message"></p>
+                </form>
+        </div>
+        <script src="{{ url_for('static', filename='js/patient_registration_form.js') }}"></script>
+    </body>
+
+</html>
