@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Log Food</title>
+</head>
+<body>
+    <h1>Log Food</h1>
+    <form id="log_food_form">
+        <label for="meal_name">Meal Name:</label>
+        <input type="text" id="meal_name" name="meal_name" required placeholder="Scrambled Eggs" maxlength="100" pattern=".*[A-Za-z].*" title="Meal name must contain at least one letter.">
+
+        <label for="meal_type">Meal Type:</label>
+        <select id="meal_type" name="meal_type" required>
+            <option value="">Select a meal</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Snack">Snack</option>
+        </select>
+
+        <label for="serving_size">Serving Size:</label>
+        <input type="text" id="serving_size" name="serving_size" required placeholder="2 eggs" maxlength="50" pattern=".*[A-Za-z].*" title="Serving size must include a unit, such as eggs, cups, or grams.">
+
+        <label for="meal_note">Meal Note:</label>
+        <textarea id="meal_note" name="meal_note" placeholder="Cooked with olive oil" maxlength="500"></textarea>
+
+        <label for="meal_date">Meal Date:</label>
+        <input type="date" id="meal_date" name="meal_date" required>
+
+        <p id="status_message"></p>
+        <button type="submit" id="submit_button">Submit Meal</button>
+    </form>
+    <button id="back_to_dashboard">Back to Dashboard</button>
+    <script src="{{ url_for('static', filename='js/patient_log_food.js') }}"></script>
+
+</body>
+</html>

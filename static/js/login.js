@@ -1,5 +1,6 @@
 const login_form = document.getElementById("login_form");
 const status_message = document.getElementById("status_message");
+const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
 login_form.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -14,7 +15,9 @@ login_form.addEventListener("submit", function(event) {
 
     fetch("/login", {
         method: "POST",
-        headers: {"content-type": "application/json"
+        headers: {
+            "content-type": "application/json",
+            "X-CSRFToken": csrf_token
         },
         body: JSON.stringify(Login)
     })

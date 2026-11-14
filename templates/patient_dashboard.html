@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Patient Dashboard</title>
 </head>
 <body>
@@ -23,10 +24,24 @@
                 <th>Update</th>
             </tr>
         </thead>
-        <tbody id="table_body">
+        <tbody id="patient_info">
         </tbody>
     </table>
-
+        <table>
+        <thead>
+            <tr>
+                <th>Meal Name</th>
+                <th>Meal Type</th>
+                <th>Portion Size</th>                    
+                <th>Note</th>
+                <th>Log Date</th>
+            </tr>
+        </thead>
+        <tbody id="food_table">
+        </tbody>
+    </table>
+    <button id="meal_log_button">Log Meal</button>
+    <p id="status_message2"></p>
     <script src="{{ url_for('static', filename='js/patient_dashboard.js') }}"></script>
 
 </body>

@@ -7,6 +7,7 @@ const confirm_patient_password = document.getElementById("confirm_patient_passwo
 const patient_fname = document.getElementById("patient_fname");
 const patient_lname = document.getElementById("patient_lname");
 const patient_age = document.getElementById("patient_age");
+const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
 patient_registration_form.addEventListener("submit", function(event) {
     console.log("Form submitted");
@@ -87,7 +88,8 @@ patient_registration_form.addEventListener("submit", function(event) {
     fetch("/patients-info", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrf_token
         },
         body: JSON.stringify(patient_info)
     })

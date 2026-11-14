@@ -2,8 +2,10 @@
     const lastname = document.getElementById("patient_lname");
     const patient_age = document.getElementById("patient_age");
     const status_message = document.getElementById("status_message");
-    
+    const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
     load_update_patient();
+
     //loads current patient information into slots
     function load_update_patient() {
         fetch(`/retrieve-single-record/${patient_ID}`)
@@ -28,19 +30,20 @@
 
     const form = document.getElementById("patient_form");
     //updates the patient information
-    form.addEventListener("submit", function(){
+    form.addEventListener("submit", function(event){
         event.preventDefault();
         
         const patient = {
             fname: firstname.value.trim(),
             lname: lastname.value.trim(),
             age: Number(patient_age.value)
-        }
+        };
 
         fetch(`/update-patient-records/${patient_ID}`,{
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrf_token
             },
             body: JSON.stringify(patient)
         })                

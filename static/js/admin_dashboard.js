@@ -4,6 +4,8 @@ const status_message = document.getElementById("status_message");
 const logout = document.getElementById("logout");
 const searchbar_form = document.getElementById("searchbar_form");
 const searchbar = document.getElementById("searchbar");
+const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
 load_patients();
 
 refresh_patients.addEventListener("click",function() {
@@ -13,7 +15,10 @@ refresh_patients.addEventListener("click",function() {
 
 logout.addEventListener("click", function(){
     fetch("/admin/logout", {
-        method: "POST"
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrf_token
+        }
     })
     .then(async response =>{
         const data = await response.json();
@@ -108,7 +113,10 @@ function update_patient(patient_ID) {
 
 function delete_patient(patient_ID){
     fetch(`/delete-patient-record/${patient_ID}`,{
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            "X-CSRFToken": csrf_token
+        }
     })
     .then(async response => {
         const data = await response.json();

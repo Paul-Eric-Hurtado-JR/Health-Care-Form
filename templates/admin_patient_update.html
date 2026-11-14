@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Patient Update</title>
     </head>
     <body>
         <div class="form">
-            <h1>Update_patient_form</h1>
+            <h1>Update Patient Page</h1>
             <form id="patient_form">
                 <label for="patient_fname" >First Name: </label>
                 <input type="text" id="patient_fname" name="fname"><br><br>
@@ -23,6 +24,6 @@
             <p id="status_message"></p>
         </div>
         <script>const patient_ID = {{ patient_id }};</script>
-        <script src="{{ url_for('static', filename='js/patient_update.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/admin_patient_update.js') }}"></script>
     </body>
 <html>
